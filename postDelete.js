@@ -1,9 +1,8 @@
-"use strict";
 const AWS = require("aws-sdk");
 
-exports.handler = async (event, context) => {
+exports.handler = async (event) => {
   const docClient = new AWS.DynamoDB.DocumentClient();
-  const { id } = JSON.parse(event.body);
+  const { id } = event.pathParameters;
   const params = {
     TableName: "Posts",
     Key: { id },

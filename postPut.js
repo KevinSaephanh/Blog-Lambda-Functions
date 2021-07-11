@@ -1,7 +1,6 @@
-"use strict";
 const AWS = require("aws-sdk");
 
-exports.handler = async (event, context) => {
+exports.handler = async (event) => {
   const documentClient = new AWS.DynamoDB.DocumentClient();
   const {
     id,
@@ -12,11 +11,11 @@ exports.handler = async (event, context) => {
     description,
     body,
     categories,
-  } = event.body;
+  } = JSON.parse(event.body);
   const params = {
     TableName: "Posts",
     Item: {
-      id,
+      id: id,
       title,
       thumbnail,
       author,
@@ -41,7 +40,7 @@ exports.handler = async (event, context) => {
   } catch (error) {
     return {
       statusCode: 403,
-      responseBody: `Unable to add post" ${error}`,
+      responseBody: `Unable to add post: " ${error}`,
     };
   }
 };
